@@ -5,6 +5,7 @@ var GrassEater = require("./modules/GrassEater.js");
 var Fire = require("./modules/Fire.js");
 var Men = require("./modules/Men.js");
 var Predator = require("./modules/Predator.js");
+var Monster = require("./modules/Monster.js");
 let random = require('./modules/random');
 //! Requiring modules  --  END
 
@@ -15,15 +16,21 @@ grassEaterArr = [];
 fireArr = [];
 menArr = [];
 predatorArr = [];
+monsterArr = [];
 matrix = [];
 grassHashiv = 0;
+grassEaterHashiv = 0;
+fireHashiv = 0;
+menHashiv = 0;
+predatorHashiv = 0;
+monsterHashiv = 0;
 //! Setting global arrays  -- END
 
 
 
 
 //! Creating MATRIX -- START
-function matrixGenerator(matrixSize, grass, grassEater, predator, fire, men) {
+function matrixGenerator(matrixSize, grass, grassEater, predator, fire, men, monster) {
     for (let index = 0; index < matrixSize; index++) {
         matrix[index] = [];
         for (let o = 0; o < matrixSize; o++) {
@@ -55,8 +62,13 @@ function matrixGenerator(matrixSize, grass, grassEater, predator, fire, men) {
         let customY = Math.floor(random(matrixSize));
         matrix[customY][customX] = 5;
     }
+    for (let i = 0; i < monster; i++) {
+        let customX = Math.floor(random(matrixSize));
+        let customY = Math.floor(random(matrixSize));
+        matrix[customY][customX] = 6;
+    }
 }
-matrixGenerator(80, 1500, 100, 30, 30,20);
+matrixGenerator(80, 50, 100, 30, 30, 20, 5);
 //! Creating MATRIX -- END
 
 
@@ -86,18 +98,27 @@ function creatingObjects() {
             else if (matrix[y][x] == 2) {
                 let grassEater = new GrassEater(x, y);
                 grassEaterArr.push(grassEater);
+                grassEaterHashiv++;
             }
             else if (matrix[y][x] == 3) {
                 let predator = new Predator(x, y);
                 predatorArr.push(predator);
+                predatorHashiv++;
             }
             else if (matrix[y][x] == 4) {
                 let fire = new Fire(x, y);
                 fireArr.push(fire);
+                fireHashiv++;
             }
             else if (matrix[y][x] == 5) {
                 let men = new Men(x, y);
                 menArr.push(men);
+                menHashiv++;
+            }
+            else if (matrix[y][x] == 6) {
+                let monster = new Monster(x, y);
+                monsterArr.push(monster);
+                monsterHashiv++;
             }
         }
     }
@@ -130,11 +151,21 @@ function game() {
             predatorArr[i].eat();
         }
     }
+    if (monsterArr[0] !== undefined) {
+        for (var i in monsterArr) {
+            monsterArr[i].eat();
+        }
+    }
 
     //! Object to send
     let sendData = {
         matrix: matrix,
-        grassCounter: grassHashiv
+        grassEaterCounter: grassEaterHashiv,
+        grassCounter: grassHashiv,
+        fireCounter: fireHashiv,
+        menCounter: menHashiv,
+        predatorCounter: predatorHashiv,
+        monsterCounter: monsterHashiv,
     }
 
     //! Send data over the socket to clients who listens "data"

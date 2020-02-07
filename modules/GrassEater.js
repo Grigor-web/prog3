@@ -7,6 +7,7 @@ module.exports = class GrassEater extends LiveForm {
     constructor(x, y) {
         super(x, y);
         this.energy = 30;
+        this.multiply = 0
     }
     getNewDirections() {
         this.directions = [
@@ -25,14 +26,17 @@ module.exports = class GrassEater extends LiveForm {
         return super.chooseCell(char);
     }
     mul() {
+        this.multiply++;
         let newCell = random(this.chooseCell(0));
-        if (newCell) {
+        if (newCell && this.multiply >= 1) {
+            grassEaterHashiv++;
             let x = newCell[0];
             let y = newCell[1];
             matrix[y][x] = 2;
             let grassEater = new GrassEater(x, y);
             grassEaterArr.push(grassEater);
             this.energy = 0;
+            this.multiply = 0;
         }
     }
     die() {

@@ -14,6 +14,7 @@ function setup() {
     let fireCountElement = document.getElementById('fireCount');
     let menCountElement = document.getElementById('menCount');
     let predatorCountElement = document.getElementById('predatorCount');
+    let monsterCountElement = document.getElementById('monsterCount');
 
     //! adding socket listener on "data" <-- name, after that fire 'drawCreatures' function 
 
@@ -27,6 +28,7 @@ function setup() {
         fireCountElement.innerText = data.fireCounter;
         menCountElement.innerText = data.menCounter;
         predatorCountElement.innerText = data.predatorCounter;
+        monsterCountElement.innerText = data.monsterCounter;
         //! Every time it creates new Canvas woth new matrix size
         createCanvas(matrix[0].length * side, matrix.length * side)
         //! clearing background by setting it to new grey color
@@ -40,7 +42,7 @@ function setup() {
                     fill("green");
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 2) {
-                    fill("orange");
+                    fill("yellow");
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 0) {
                     fill('#acacac');
@@ -49,10 +51,13 @@ function setup() {
                     fill('red');
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 4) {
-                    fill('blue');
+                    fill('black');
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 5) {
-                    fill('yellow');
+                    fill('blue');
+                    rect(j * side, i * side, side, side);
+                } else if (matrix[i][j] == 6) {
+                    fill('magenta');
                     rect(j * side, i * side, side, side);
                 }
             }

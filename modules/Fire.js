@@ -3,7 +3,7 @@ var random = require("./random.js");
 
 
 
-module.exports = class GrassEater extends LiveForm {
+module.exports = class Fire extends LiveForm {
     constructor(x, y) {
         super(x, y);
         this.energy = 10;
